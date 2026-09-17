@@ -26,6 +26,12 @@ body {
 	line-height: 1.7;
 }
 
+img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
 header {
 	padding: 4rem 1.5rem 2.5rem;
 	background: var(--ink);
@@ -130,13 +136,22 @@ section {
 }
 
 #about img {
-	display: block;
 	width: 180px;
 	height: 180px;
 	margin: 0 0 1.5rem;
 	border: 6px solid var(--soft-accent);
 	border-radius: 50%;
 	object-fit: cover;
+}
+
+#projects {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	column-gap: 2rem;
+}
+
+#projects h2 {
+	grid-column: 1 / -1;
 }
 
 article + article {
@@ -210,16 +225,82 @@ footer p {
 		padding-top: 2.5rem;
 	}
 
+	nav ul {
+		align-items: stretch;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	nav li,
+	nav a {
+		display: block;
+	}
+
+	nav a {
+		text-align: center;
+	}
+
+	#projects {
+		display: block;
+	}
+
+	#projects article + article {
+		margin-top: 1.25rem;
+		padding-top: 1.25rem;
+	}
+
+	#about img {
+		width: min(180px, 100%);
+		height: auto;
+		aspect-ratio: 1;
+	}
+
+	main {
+		padding-top: 2rem;
+		padding-bottom: 2rem;
+	}
+
+	h1 {
+		font-size: clamp(2.25rem, 12vw, 3.5rem);
+	}
+
+	h2 {
+		font-size: 1.7rem;
+	}
+
 	section {
 		padding: 1.25rem;
 	}
 
 	table {
+		display: block;
+		overflow-x: auto;
 		font-size: 0.9rem;
 	}
 
 	th,
 	td {
 		padding: 0.65rem;
+	}
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+	header,
+	main,
+	footer {
+		padding-left: 2rem;
+		padding-right: 2rem;
+	}
+
+	section {
+		padding: 1.5rem;
+	}
+
+	#projects {
+		grid-template-columns: 1fr;
+	}
+
+	#projects h2 {
+		grid-column: auto;
 	}
 }
