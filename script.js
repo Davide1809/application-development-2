@@ -57,3 +57,58 @@ console.log(createProjectSummary(projects[1].title, projects[1].tools.length));
 for (const project of projects) {
 	console.log(`${project.title} [${project.category}] uses: ${project.tools.join(", ")}.`);
 }
+
+const projectSearchInput = document.querySelector("#project-search-input");
+const projectStatus = document.querySelector("#project-status");
+const projectCards = document.querySelectorAll("#projects article[data-project-id]");
+const savedProjectList = document.querySelector("#saved-project-list");
+const savedProjectsEmptyMessage = document.querySelector("#saved-projects-empty");
+
+function filterProjects() {
+	const searchTerm = projectSearchInput.value.trim().toLowerCase();
+	let visibleProjectCount = 0;
+
+	for (const projectCard of projectCards) {
+		const projectText = `${projectCard.querySelector("h3").textContent} ${projectCard.querySelector("p").textContent}`.toLowerCase();
+		const matchesSearch = projectText.includes(searchTerm);
+		projectCard.classList.toggle("is-filtered-out", !matchesSearch);
+		visibleProjectCount += Number(matchesSearch);
+	}
+
+	projectStatus.textContent = searchTerm
+		? `Showing ${visibleProjectCount} of ${projectCards.length} projects for "${projectSearchInput.value.trim()}".`
+		: `Showing all ${visibleProjectCount} projects.`;
+}
+
+function toggleSavedProject(event) {
+	const saveButton = event.currentTarget;
+	const projectCard = saveButton.closest("article[data-project-id]");
+	const projectId = projectCard.dataset.projectId;
+	const projectTitle = projectCard.querySelector("h3").textContent;
+	const isSaved = projectCard.classList.toggle("is-saved");
+
+	saveButton.setAttribute("aria-pressed", String(isSaved));
+	saveButton.textContent = isSaved ? "Project saved" : "Save project";
+
+	if (isSaved) {
+		const savedProjectItem = document.createElement("li");
+		savedProjectItem.dataset.projectId = projectId;
+		savedProjectItem.textContent = projectTitle;
+		savedProjectList.append(savedProjectItem);
+	} else {
+		const savedProjectItem = Array.from(savedProjectList.children)
+			.find((item) => item.dataset.projectId === projectId);
+		savedProjectItem.remove();
+	}
+
+	savedProjectsEmptyMessage.classList.toggle("is-hidden", savedProjectList.children.length > 0);
+	console.log(`${projectTitle} ${isSaved ? "saved to" : "removed from"} your project list.`);
+}
+
+projectSearchInput.addEventListener("input", filterProjects);
+
+for (const saveButton of document.querySelectorAll(".save-project-button")) {
+	saveButton.addEventListener("click", toggleSavedProject);
+}
+
+console.log(`Project Explorer ready with ${projectCards.length} interactive project cards.`);

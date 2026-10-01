@@ -34,22 +34,36 @@
 
 			<section id="projects">
 				<h2>Projects</h2>
-				<article>
+				<div class="project-search" role="search">
+					<label for="project-search-input">Find a project</label>
+					<input id="project-search-input" type="search" placeholder="Search by title or topic">
+				</div>
+				<p id="project-status" class="project-status" role="status" aria-live="polite">Showing all 4 projects.</p>
+				<article data-project-id="network-analysis">
 					<h3>College Network Analysis</h3>
 					<p>A packet capture and vulnerability assessment project focused on examining network activity and identifying potential security concerns.</p>
+					<button class="save-project-button" type="button" aria-pressed="false">Save project</button>
 				</article>
-				<article>
+				<article data-project-id="password-health-tracker">
 					<h3>Password Health Tracker</h3>
 					<p>A web-based application designed to help users evaluate password strength and safety through real-time assessments, breach detection, and AI-powered recommendations.</p>
+					<button class="save-project-button" type="button" aria-pressed="false">Save project</button>
 				</article>
-				<article>
+				<article data-project-id="inventory-api">
 					<h3>Inventory Management Backend API</h3>
 					<p>A backend API focused on database schema structure, endpoint routing, and session-based authentication, designed and tested using Postman.</p>
+					<button class="save-project-button" type="button" aria-pressed="false">Save project</button>
 				</article>
-				<article>
+				<article data-project-id="c-inventory-system">
 					<h3>C CLI E-Commerce and Inventory System</h3>
 					<p>A console application in C using custom struct architectures, input sanitization with <code>fgets</code> and <code>strtol</code>, string algorithms, and linear memory shifting for cart management.</p>
+					<button class="save-project-button" type="button" aria-pressed="false">Save project</button>
 				</article>
+				<aside class="saved-projects" aria-labelledby="saved-projects-heading">
+					<h3 id="saved-projects-heading">Saved projects</h3>
+					<p id="saved-projects-empty">No projects saved yet.</p>
+					<ul id="saved-project-list" aria-live="polite"></ul>
+				</aside>
 			</section>
 
 			<section id="skills">
