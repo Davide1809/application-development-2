@@ -112,3 +112,96 @@ for (const saveButton of document.querySelectorAll(".save-project-button")) {
 }
 
 console.log(`Project Explorer ready with ${projectCards.length} interactive project cards.`);
+
+const contactForm = document.querySelector("#contact-form");
+const contactFormFeedback = document.querySelector("#contact-form-feedback");
+const contactFields = {
+	name: document.querySelector("#contact-name"),
+	email: document.querySelector("#contact-email"),
+	topic: document.querySelector("#contact-topic"),
+	message: document.querySelector("#contact-message")
+};
+let contactFormSubmitted = false;
+
+function getContactFormErrors() {
+	const values = {
+		name: contactFields.name.value.trim(),
+		email: contactFields.email.value.trim(),
+		topic: contactFields.topic.value,
+		message: contactFields.message.value.trim()
+	};
+	const errors = {};
+
+	if (!values.name) {
+		errors.name = "Enter your name.";
+	}
+	if (!values.email) {
+		errors.email = "Enter your email address.";
+	} else if (values.email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+		errors.email = "Enter a valid email address.";
+	}
+	if (!values.topic) {
+		errors.topic = "Choose a topic.";
+	}
+	const minimumMessageLength = values.topic === "project-collaboration" ? 50 : 20;
+	if (!values.message) {
+		errors.message = "Enter a message.";
+	} else if (values.message.length < minimumMessageLength) {
+		errors.message = values.topic === "project-collaboration"
+			? "Add a few more details about the collaboration (at least 50 characters)."
+			: "Your message must be at least 20 characters.";
+	}
+
+	return { values, errors };
+}
+
+function showContactFormErrors(errors) {
+	for (const [fieldName, field] of Object.entries(contactFields)) {
+		const errorMessage = errors[fieldName] || "";
+		document.querySelector(`#contact-${fieldName}-error`).textContent = errorMessage;
+		field.setAttribute("aria-invalid", String(Boolean(errorMessage)));
+	}
+}
+
+contactForm.addEventListener("input", () => {
+	if (contactFormSubmitted) {
+		const { errors } = getContactFormErrors();
+		showContactFormErrors(errors);
+		contactFormFeedback.textContent = Object.keys(errors).length
+			? "Please correct the highlighted fields."
+			: "The form is ready to submit.";
+	}
+});
+
+contactForm.addEventListener("change", () => {
+	if (contactFormSubmitted) {
+		const { errors } = getContactFormErrors();
+		showContactFormErrors(errors);
+		contactFormFeedback.textContent = Object.keys(errors).length
+			? "Please correct the highlighted fields."
+			: "The form is ready to submit.";
+	}
+});
+
+contactForm.addEventListener("submit", (event) => {
+	event.preventDefault();
+	contactFormSubmitted = true;
+
+	const { values, errors } = getContactFormErrors();
+	showContactFormErrors(errors);
+
+	if (Object.keys(errors).length > 0) {
+		contactFormFeedback.textContent = "Please correct the highlighted fields before sending.";
+		contactFields[Object.keys(errors)[0]].focus();
+		return;
+	}
+
+	const contactRequest = {
+		name: values.name,
+		email: values.email.toLowerCase(),
+		topic: values.topic,
+		message: values.message
+	};
+	console.log("Contact form payload:", contactRequest);
+	contactFormFeedback.textContent = "Thanks for reaching out. Your message is ready to be sent.";
+});

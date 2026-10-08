@@ -175,7 +175,11 @@ section {
 }
 
 .project-search input:focus-visible,
-.save-project-button:focus-visible {
+.save-project-button:focus-visible,
+.form-submit:focus-visible,
+#contact-form input:focus-visible,
+#contact-form select:focus-visible,
+#contact-form textarea:focus-visible {
 	outline: 3px solid var(--accent);
 	outline-offset: 2px;
 }
@@ -224,6 +228,77 @@ section {
 
 .saved-projects ul {
 	margin-bottom: 0;
+}
+
+#contact-form {
+	max-width: 42rem;
+}
+
+.form-field {
+	margin-top: 1.25rem;
+}
+
+.form-field label {
+	display: block;
+	margin-bottom: 0.35rem;
+	font-weight: 700;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+	width: 100%;
+	padding: 0.7rem 0.8rem;
+	border: 1px solid #a99c8e;
+	border-radius: 0.25rem;
+	background: var(--surface);
+	color: var(--ink);
+	font: inherit;
+}
+
+.form-field textarea {
+	resize: vertical;
+}
+
+.form-field [aria-invalid="true"] {
+	border-color: #a52e24;
+}
+
+.field-hint,
+.field-error,
+.form-required-note,
+.form-feedback {
+	margin: 0.35rem 0 0;
+	font-size: 0.92rem;
+}
+
+.field-error {
+	color: #a52e24;
+}
+
+.form-required-note {
+	margin-top: 1rem;
+}
+
+.form-feedback:not(:empty) {
+	margin-top: 0.75rem;
+	font-weight: 700;
+}
+
+.form-submit {
+	margin-top: 1rem;
+	padding: 0.65rem 1rem;
+	border: 1px solid var(--accent-dark);
+	border-radius: 0.25rem;
+	background: var(--accent-dark);
+	color: #ffffff;
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.form-submit:hover {
+	background: var(--ink);
 }
 
 .is-hidden {
