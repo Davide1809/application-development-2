@@ -230,6 +230,72 @@ section {
 	margin-bottom: 0;
 }
 
+.api-posts,
+.api-create {
+	margin-top: 1.5rem;
+}
+
+.api-status {
+	margin: 0.35rem 0 0.75rem;
+}
+
+.api-post-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.api-post-item {
+	padding: 1rem 0;
+	border-top: 1px solid var(--line);
+}
+
+.api-post-item h4,
+.api-created-post h4 {
+	margin: 0 0 0.35rem;
+	font-size: 1.1rem;
+}
+
+.api-post-item p,
+.api-created-post p:last-child {
+	margin-bottom: 0;
+}
+
+.api-create {
+	max-width: 42rem;
+	padding-top: 1.5rem;
+	border-top: 1px solid var(--line);
+}
+
+.api-create input,
+.api-create textarea {
+	width: 100%;
+	padding: 0.7rem 0.8rem;
+	border: 1px solid #a99c8e;
+	border-radius: 0.25rem;
+	background: var(--surface);
+	color: var(--ink);
+	font: inherit;
+}
+
+.api-create [aria-invalid="true"] {
+	border-color: #a52e24;
+}
+
+.api-create input:focus-visible,
+.api-create textarea:focus-visible,
+.api-create .form-submit:focus-visible {
+	outline: 3px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.api-post-result:not(:empty) {
+	margin-top: 1rem;
+	padding: 1rem;
+	border-left: 4px solid var(--accent);
+	background: var(--paper);
+}
+
 #contact-form {
 	max-width: 42rem;
 }

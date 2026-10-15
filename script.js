@@ -205,3 +205,110 @@ contactForm.addEventListener("submit", (event) => {
 	console.log("Contact form payload:", contactRequest);
 	contactFormFeedback.textContent = "Thanks for reaching out. Your message is ready to be sent.";
 });
+
+const apiPostList = document.querySelector("#api-post-list");
+const apiPostsStatus = document.querySelector("#api-posts-status");
+const apiPostForm = document.querySelector("#api-post-form");
+const apiPostFeedback = document.querySelector("#api-post-feedback");
+const apiPostResult = document.querySelector("#api-post-result");
+const apiPostSubmit = document.querySelector("#api-post-submit");
+
+function renderPosts(posts) {
+	const postItems = posts.slice(0, 5).map((post) => {
+		const item = document.createElement("li");
+		const title = document.createElement("h4");
+		const body = document.createElement("p");
+
+		item.className = "api-post-item";
+		title.textContent = post.title;
+		body.textContent = post.body;
+		item.append(title, body);
+		return item;
+	});
+
+	apiPostList.replaceChildren(...postItems);
+}
+
+async function loadPosts() {
+	apiPostsStatus.textContent = "Loading posts...";
+	apiPostList.replaceChildren();
+
+	try {
+		const response = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
+		if (!response.ok) {
+			throw new Error(`Request failed with status ${response.status}.`);
+		}
+
+		const posts = await response.json();
+		renderPosts(posts);
+		apiPostsStatus.textContent = `Showing ${Math.min(posts.length, 5)} sample posts.`;
+	} catch (error) {
+		console.error("Unable to load sample posts:", error);
+		apiPostsStatus.textContent = "Posts could not be loaded right now. Please try again later.";
+	}
+}
+
+function showPostFormErrors(titleError, bodyError) {
+	document.querySelector("#api-post-title-error").textContent = titleError;
+	document.querySelector("#api-post-body-error").textContent = bodyError;
+	document.querySelector("#api-post-title").setAttribute("aria-invalid", String(Boolean(titleError)));
+	document.querySelector("#api-post-body").setAttribute("aria-invalid", String(Boolean(bodyError)));
+}
+
+async function createSamplePost(title, body) {
+	const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+		method: "POST",
+		headers: { "Content-Type": "application/json; charset=UTF-8" },
+		body: JSON.stringify({ title, body, userId: 1 })
+	});
+	if (!response.ok) {
+		throw new Error(`Request failed with status ${response.status}.`);
+	}
+
+	return response.json();
+}
+
+function renderCreatedPost(post) {
+	const result = document.createElement("article");
+	const title = document.createElement("h4");
+	const body = document.createElement("p");
+	const identifier = document.createElement("p");
+
+	result.className = "api-created-post";
+	title.textContent = post.title;
+	body.textContent = post.body;
+	identifier.textContent = `Returned post ID: ${post.id}`;
+	result.append(title, body, identifier);
+	apiPostResult.replaceChildren(result);
+}
+
+apiPostForm.addEventListener("submit", async (event) => {
+	event.preventDefault();
+	const title = document.querySelector("#api-post-title").value.trim();
+	const body = document.querySelector("#api-post-body").value.trim();
+	const titleError = title ? "" : "Enter a title.";
+	const bodyError = body.length >= 10 ? "" : "Enter at least 10 characters of post details.";
+
+	showPostFormErrors(titleError, bodyError);
+	if (titleError || bodyError) {
+		apiPostFeedback.textContent = "Please correct the highlighted fields.";
+		return;
+	}
+
+	apiPostSubmit.disabled = true;
+	apiPostFeedback.textContent = "Creating sample post...";
+	apiPostResult.replaceChildren();
+
+	try {
+		const createdPost = await createSamplePost(title, body);
+		renderCreatedPost(createdPost);
+		apiPostFeedback.textContent = "Sample post created. JSONPlaceholder does not permanently save it.";
+	} catch (error) {
+		console.error("Unable to create sample post:", error);
+		apiPostFeedback.textContent = "The sample post could not be created. Please try again.";
+	} finally {
+		apiPostSubmit.disabled = false;
+	}
+});
+
+loadPosts();

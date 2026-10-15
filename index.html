@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Davide Silverii | Personal Portfolio</title>
-		<link rel="stylesheet" href="style.css?v=7">
-		<script src="script.js?v=7" defer></script>
+		<link rel="stylesheet" href="style.css?v=8">
+		<script src="script.js?v=8" defer></script>
 	</head>
 	<body>
 		<header>
@@ -16,6 +16,7 @@
 				<ul>
 					<li><a href="#about">About</a></li>
 					<li><a href="#projects">Projects</a></li>
+					<li><a href="#api-lab">API Lab</a></li>
 					<li><a href="#skills">Skills</a></li>
 					<li><a href="#goals">Goals</a></li>
 					<li><a href="#contact">Contact</a></li>
@@ -64,6 +65,34 @@
 					<p id="saved-projects-empty">No projects saved yet.</p>
 					<ul id="saved-project-list" aria-live="polite"></ul>
 				</aside>
+			</section>
+
+			<section id="api-lab" aria-labelledby="api-lab-heading">
+				<h2 id="api-lab-heading">API Lab</h2>
+				<p>Recent sample posts from JSONPlaceholder, plus a simulated post request.</p>
+				<div class="api-posts" aria-labelledby="api-posts-heading">
+					<h3 id="api-posts-heading">Latest sample posts</h3>
+					<p id="api-posts-status" class="api-status" role="status" aria-live="polite">Loading posts...</p>
+					<ul id="api-post-list" class="api-post-list"></ul>
+				</div>
+				<div class="api-create">
+					<h3>Create a sample post</h3>
+					<form id="api-post-form" novalidate>
+						<div class="form-field">
+							<label for="api-post-title">Post title</label>
+							<input id="api-post-title" name="title" type="text" maxlength="100" required aria-describedby="api-post-title-error">
+							<p class="field-error" id="api-post-title-error"></p>
+						</div>
+						<div class="form-field">
+							<label for="api-post-body">Post details</label>
+							<textarea id="api-post-body" name="body" rows="4" minlength="10" required aria-describedby="api-post-body-error"></textarea>
+							<p class="field-error" id="api-post-body-error"></p>
+						</div>
+						<p id="api-post-feedback" class="api-status" role="status" aria-live="polite"></p>
+						<button class="form-submit" id="api-post-submit" type="submit">Create sample post</button>
+					</form>
+					<div id="api-post-result" class="api-post-result" aria-live="polite"></div>
+				</div>
 			</section>
 
 			<section id="skills">
